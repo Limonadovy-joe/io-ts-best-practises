@@ -59,7 +59,6 @@ import {
   string,
   Branded,
   brand,
-  type,
 } from "io-ts";
 
 import { NanoId, isURL } from "types";
@@ -90,7 +89,6 @@ import {
   string,
   Branded,
   brand,
-  type,
 } from "io-ts";
 
 import { NanoId, isURL } from "types";
