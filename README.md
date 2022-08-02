@@ -15,7 +15,7 @@ Take everything here as an **opinion**, not as a dogma.
 
 **Table of Contents**
 
-**Application Structure**
+- **Application Structure**
   - [Use Default import to import io-ts](#use-default-import-to-import-io-ts)
   - [Declare static types before implementation](#declare-static-types-before-implementation)
   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)**
@@ -31,7 +31,7 @@ import { NanoId} from "types";
 const ClientId = t.intersection([
   t.string,
   NanoId
-]);
+], 'ClientId');
 
 ```
 While **Namespace import** works, it is confusing and not a god practise to import all the contents of lib if we are not using them.
@@ -50,6 +50,65 @@ const ClientId = intersection([
 With this approach we can destructure the content we need from the io-ts module instead of importing all the contents.
 
 ## Declare static types before implementation
+Consider the code below:
+```ts
+import {
+  TypeOf,
+  OutputOf,
+  intersection,
+  string,
+  Branded,
+  brand,
+  type,
+} from "io-ts";
+
+import { NanoId, isURL } from "types";
 
 
+const ClientId = intersection([string, NanoId], "ClientId");
+type ClientId = TypeOf<typeof ClientId>;
 
+
+interface DomainBrand {
+  readonly Domain: unique symbol;
+}
+
+const Domain = brand(
+  string,
+  (a): a is Branded<string, DomainBrand> => isURL(a),
+  "Domain"
+);
+
+type Domain = TypeOf<typeof Domain>;
+```
+The code above can be cleaner and more readable especially when you define Branded types using interface with unique Symbol. If we seperate the runtime and compile-time declarations, it makes the code much easier to read from top to bottom without jumping and keeps the declarations and definitions seperate well: 
+```ts
+import {
+  TypeOf,
+  OutputOf,
+  intersection,
+  string,
+  Branded,
+  brand,
+  type,
+} from "io-ts";
+
+import { NanoId, isURL } from "types";
+
+type ClientId = TypeOf<typeof ClientId>;
+
+const ClientId = intersection([string, NanoId], "ClientId");
+
+interface DomainBrand {
+  readonly Domain: unique symbol;
+}
+
+type Domain = TypeOf<typeof Domain>;
+
+const Domain = brand(
+  string,
+  (a): a is Branded<string, DomainBrand> => isURL(a),
+  "Domain"
+);
+```
+We have seperated our compile-time declarations from our runtime declarations.
