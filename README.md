@@ -19,7 +19,7 @@ Take everything here as an **opinion**, not as a dogma.
 - **Application Structure**
   - [Use Default import to import io-ts](#use-default-import-to-import-io-ts)
   - [Declare static types before implementation](#declare-static-types-before-implementation)
-  - [Declare first refinement(branded) types and then domain types](#declare-first-refinement-types-and-then-domain-types)
+  - [Declare first refinement types and then domain types](#declare-first-refinement-types-and-then-domain-types)
 <!--   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)** -->
 
 
@@ -113,4 +113,4 @@ const Domain = brand(
 ```
 We have seperated our compile-time declarations from our runtime declarations.
 
-## Declare first refinement(branded) types and then domain types
+## Declare first refinement types and then domain types
