@@ -16,12 +16,17 @@ Take everything here as an **opinion**, not as a dogma.
 
 **Table of Contents**
 
-- **Application Structure**
+- [**Application Structure**](#application-structure)
   - [Use Default import to import io-ts](#use-default-import-to-import-io-ts)
   - [Declare static types before implementation](#declare-static-types-before-implementation)
-  - [Declare first refinement types and then domain types](#declare-first-refinement-types-and-then-domain-types)
+    
+- [**General Patterns**](#general-patterns)
+  - [Refinement types](#refinement-types)
+    - [Definition of refinement type using io-ts types](#definition-of-refinement-type-using-io-ts-types)
+    - [Refinement type must follow some rules](#definition-of-refinement-type-using-io-ts-types)
 <!--   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)** -->
 
+# Application Structure
 
 ## Use Default import to import io-ts
   Consider the code below:
@@ -113,4 +118,28 @@ const Domain = brand(
 ```
 We have seperated our compile-time declarations from our runtime declarations.
 
-## Declare first refinement types and then domain types
+# General patterns
+
+## Refinement types
+
+### Definition of refinement type using io-ts types
+The refinement of a type `T` can be represented as `Branded<A, B>` where type `A` can be any member of the broad primitive types such as `string` or `number` and type `B` is defined as `interface Brand<B> {readonly [_brand]:  unique symbol B}` which also represents the given refinement `R` and ensures uniqueness.
+
+Implementation of refinement type using Branded types: 
+```ts
+import { Branded } from "io-ts";
+
+interface TrimmedStringBrand {
+  readonly TrimmedString: unique symbol; 
+}
+
+type TrimmedString = Branded<string, TrimmedStringBrand>;
+```
+Type `Branded<A, B>` is **type constructor** which takes types as arguments and returns another type.
+
+| **parameter of type constructor** | concrete type |
+| ------------- | ------------------------------- |
+| `A` | `string` - primitive data type |
+| `B` | `TrimmedStringBrand` - refinement of primitive data type |
+
+
