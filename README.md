@@ -7,8 +7,9 @@ and rules that have proven to be effective for me and the teams I have worked wi
 
 I would like to outline patterns about:
 * **Application Structure**
-* **Testing**
 * **General Patterns**
+* **Testing**
+
 
 Take everything here as an **opinion**, not as a dogma.
 
