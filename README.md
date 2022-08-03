@@ -23,7 +23,7 @@ Take everything here as an **opinion**, not as a dogma.
 - [**General Patterns**](#general-patterns)
   - [Refinement types](#refinement-types)
     - [Definition of refinement type using io-ts types](#definition-of-refinement-type-using-io-ts-types)
-    - [Refinement type must follow some rules](#definition-of-refinement-type-using-io-ts-types)
+    - [Refinement type must follow the rules](#refinement-type-must-follow-the-rules)
 <!--   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)** -->
 
 # Application Structure
@@ -141,5 +141,15 @@ Type `Branded<A, B>` is **type constructor** which takes types as arguments and 
 | ------------- | ------------------------------- |
 | `A` | `string` - primitive data type |
 | `B` | `TrimmedStringBrand` - refinement of primitive data type |
+
+### Refinement type must follow the rules
+If we return to the previous example of `TrimmedString`, this `TrimmedStringBrand`  only exists at type-level and we need to make sure that the given string does not containt whitespaces. We need some runtime validations. This is where **smart constructor** comes into play.
+
+**Smart constructors** are functions that perform some extra checks when the values of required type are constructed.
+
+| **signature of smart constructor** | **signature of smart constructor from io-ts** |
+| ------------- | ------------------------------- |
+| `(a: A) => F<R>` where R is Refinement type and F is some type constructor| `<I, A> = (i: I) => Validation<A>` - TODO |
+
 
 
