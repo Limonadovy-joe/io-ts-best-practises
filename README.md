@@ -24,6 +24,9 @@ Take everything here as an **opinion**, not as a dogma.
   - [Refinement types](#refinement-types)
     - [Definition of refinement type using io-ts types](#definition-of-refinement-type-using-io-ts-types)
     - [Refinement type must follow the rules](#refinement-type-must-follow-the-rules)
+      - [Smart constructors](#smart-constructors) 
+        - [General definition of smart constructor](#general-definition-of-smart-constructor)
+        - [Definition of smart constructor from io-ts](#definition-of-smart-constructor-from-io-ts)
 <!--   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)** -->
 
 # Application Structure
@@ -145,11 +148,62 @@ Type `Branded<A, B>` is **type constructor** which takes types as arguments and 
 ### Refinement type must follow the rules
 If we return to the previous example of `TrimmedString`, this `TrimmedStringBrand`  only exists at type-level and we need to make sure that the given string does not containt whitespaces. We need some runtime validations. This is where **smart constructor** comes into play.
 
-**Smart constructors** are functions that perform some extra checks when the values of required type are constructed.
+#### **Smart constructors** 
+Smart constructors are functions that perform some extra checks when the values of required type are constructed.
 
-| **signature of smart constructor** | **signature of smart constructor from io-ts** |
+##### General definition of smart constructor
+
+| **signature of smart constructor** | |
 | ------------- | ------------------------------- |
-| `(a: A) => F<R>` where R is Refinement type and F is some type constructor| `<I, A> = (i: I) => Validation<A>` - TODO |
+| `(a: A) => F<R>` |  Such signature models a function which accepts an input of the `A` and returns the type of `R`, coupled with an **effect** `F`, where `F` is some **type constructor**. |
 
+Example: 
+```ts
+import { Either, fromPredicate as EitherFromPredicate, toError } from "fp-ts/lib/Either";
+import { Branded } from "io-ts";
+
+interface TrimmedStringBrand {
+  readonly TrimmedString: unique symbol; 
+}
+
+type TrimmedString = Branded<string, TrimmedStringBrand>;
+
+type Effect<S, E = Error> = Either<E, S>;
+
+const isTrimmedString = (s: string): s is TrimmedString => s.length === s.trim().length;
+const createTrimmedString = (s: string): Effect<TrimmedString> => pipe(s, EitherFromPredicate(isTrimmedString, toError));
+```
+
+| helpers | description |
+| ------------- | ------------------------------- |
+| isTrimmedString | Custom type guard to narrow the type - `TrimmedString` |
+| createTrimmedString | **Smart constructor** |
+| Effect | represents computation that can fail |
+
+
+
+
+##### Definition of smart constructor from io-ts
+
+| **signature of smart constructor from io-ts** | |
+| ------------- | ------------------------------- |
+| `<I, A> = (i: I) => Validation<A>` |  Such signature models a function which accepts an input of the `I` and returns the `Validation` **effect**, coupled with type `A` which represents encapsulated **Branded type**. In our case, it is `TrimmedString`. |
+
+All of the codecs(combinators) from io-ts(list of codecs) implementing signature of smart constructor in the form of `decode(i: I): Validation<A>` method.
+
+Example: 
+```ts
+import { Branded } from "io-ts";
+
+interface TrimmedStringBrand {
+  readonly TrimmedString: unique symbol; 
+}
+
+type TrimmedString = Branded<string, TrimmedStringBrand>;
+```
+
+
+
+    
 
 
