@@ -21,7 +21,7 @@ Take everything here as an **opinion**, not as a dogma.
   - [Declare static types before implementation](#declare-static-types-before-implementation)
     
 - [**General Patterns**](#general-patterns)
-  - [Refinement types](#refinement-types)
+  - [Implementation of Refinement types using Branded Types](#implementation-of-refinement-types-using-branded-types)
     - [Definition of refinement type using io-ts types](#definition-of-refinement-type-using-io-ts-types)
     - [Refinement type must follow the rules](#refinement-type-must-follow-the-rules)
       - [Smart constructors](#smart-constructors) 
@@ -123,7 +123,7 @@ We have seperated our compile-time declarations from our runtime declarations.
 
 # General patterns
 
-## Refinement types
+## Implementation of Refinement types using Branded Types
 
 ### Definition of refinement type using io-ts types
 The refinement of a type `T` can be represented as `Branded<A, B>` where type `A` can be any member of the broad primitive types such as `string` or `number` and type `B` is defined as `interface Brand<B> {readonly [_brand]:  unique symbol B}` which represents the given refinement `R` and also ensures uniqueness.
