@@ -126,7 +126,7 @@ We have seperated our compile-time declarations from our runtime declarations.
 ## Implementation of Refinement types using Branded Types
 
 ### Definition of refinement type using io-ts types
-The refinement of a type `T` can be represented as `Branded<A, B>` where type `A` can be any member of the broad primitive types such as `string` or `number` and type `B` is defined as `interface Brand<B> {readonly [_brand]:  unique symbol B}` which represents the given refinement `R` and also ensures uniqueness.
+The refinement of a type `T` can be represented as `Branded<A, B>` where type `A` can be any member of the broad primitive types such as `string` or `number` and type `B` is defined as `interface Brand<B> {readonly _brand:  unique symbol B}` which represents the given refinement `R` and also ensures uniqueness.
 
 Implementation of refinement type using Branded types: 
 ```ts
