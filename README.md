@@ -143,10 +143,10 @@ Type `Branded<A, B>` is **type constructor** which takes types as arguments and 
 | **parameter of type constructor** | concrete type |
 | ------------- | ------------------------------- |
 | `A` | `string` - primitive data type |
-| `B` | `TrimmedStringBrand` - refinement of primitive data type |
+| `B` | `TrimmedString` - refinement of primitive data type |
 
 ### Refinement type must follow the rules
-If we return to the previous example of `TrimmedString`, this `TrimmedStringBrand`  only exists at type-level and we need to make sure that the given string does not containt whitespaces. We need some runtime validations. This is where **smart constructor** comes into play.
+If we return to the previous example of `TrimmedString`, this `TrimmedString`  only exists at type-level and we need to make sure that the given string does not containt whitespaces. We need some runtime validations. This is where **smart constructor** comes into play.
 
 #### **Smart constructors** 
 Smart constructors are functions that perform some extra checks when the values of required type are constructed.
