@@ -185,22 +185,69 @@ const createTrimmedString = (s: string): Effect<TrimmedString> => pipe(s, Either
 
 ##### Definition of smart constructor from io-ts
 
-| **signature of smart constructor from io-ts** | |
+| **signature of smart constructor from io-ts** | description |
 | ------------- | ------------------------------- |
 | `<I, A> = (i: I) => Validation<A>` |  Such signature models a function which accepts an input of the `I` and returns the `Validation` **effect**, coupled with type `A` which represents encapsulated **Branded type**. In our case, it is `TrimmedString`. |
 
-All of the codecs(combinators) from io-ts(list of codecs) implementing signature of smart constructor in the form of `decode(i: I): Validation<A>` method.
-
-Example: 
+All of the codecs([combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators)) inherit from `Type<A, O, I>` 
+class:
 ```ts
-import { Branded } from "io-ts";
+class Type<A, O = A, I = unknown> implements Decoder<I, A>, Encoder<A, O> {
+
+  readonly is: Is<A>
+
+  constructor(...)
+  decode(i: I): Validation<A>
+  ...
+}
+```
+
+You could then define a codec `TrimmedString` which represents a string without leading and trailing whitespaces:
+```ts
+import {
+  Either,
+  fromPredicate as eitherFromPredicate,
+  toError,
+  mapLeft as eitherMapLeft,
+} from "fp-ts/lib/Either";
 
 interface TrimmedStringBrand {
-  readonly TrimmedString: unique symbol; 
+  readonly TrimmedString: unique symbol;
 }
 
 type TrimmedString = Branded<string, TrimmedStringBrand>;
+
+type Effect<E, S> = Either<E, S>;
+
+type ValidationContext = { value: unknown; context: Context };
+
+const isTrimmedString = (s: unknown): s is TrimmedString =>
+  typeof s === "string" && s.length === s.trim().length;
+const createTrimmedString = (s: string): Effect<Error, TrimmedString> =>
+  pipe(s, eitherFromPredicate(isTrimmedString, toError));
+
+const mapErrorToIOErrors =
+  ({ value, context }: ValidationContext) =>
+  ({ message }: Error): Errors =>
+    [{ value, context, message }];
+
+const TrimmedString = new Type<TrimmedString, string, string>(
+  "TrimmedString",
+  isTrimmedString,
+  (value, context) =>
+    pipe(
+      value,
+      createTrimmedString,
+      eitherMapLeft(mapErrorToIOErrors({ value, context }))
+    ),
+  identity
+);
 ```
+
+| API **`Type<A, O, I>`** | description |
+| ------------- | ------------------------------- |
+| `is: Is<A>` |  Custom type guard to narrow the appropriate type -`isTrimmedString` |
+| `decode(i: I): Validation<A>` |  This method can be used as **Smart guard** - `createTrimmedString` |
 
 
 
