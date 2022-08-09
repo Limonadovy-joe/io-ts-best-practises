@@ -247,7 +247,7 @@ const TrimmedString = new Type<TrimmedString, string, string>(
 | API **`Type<A, O, I>`** | description |
 | ------------- | ------------------------------- |
 | `is: Is<A>` |  Custom type guard to narrow the appropriate type -`isTrimmedString` |
-| `decode(i: I): Validation<A>` |  This method can be used as **Smart guard** - `createTrimmedString` |
+| `decode(i: I): Validation<A>` |  This method can be used as **Smart constructor** - `createTrimmedString` |
 
 
 
