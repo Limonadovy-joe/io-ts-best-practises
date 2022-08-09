@@ -159,7 +159,7 @@ Smart constructors are functions that perform some extra checks when the values 
 
 Example: 
 ```ts
-import { Either, fromPredicate as EitherFromPredicate, toError } from "fp-ts/lib/Either";
+import { Either, fromPredicate as eitherFromPredicate, toError } from "fp-ts/lib/Either";
 import { Branded } from "io-ts";
 
 interface TrimmedStringBrand {
@@ -171,7 +171,7 @@ type TrimmedString = Branded<string, TrimmedStringBrand>;
 type Effect<S, E = Error> = Either<E, S>;
 
 const isTrimmedString = (s: string): s is TrimmedString => s.length === s.trim().length;
-const createTrimmedString = (s: string): Effect<TrimmedString> => pipe(s, EitherFromPredicate(isTrimmedString, toError));
+const createTrimmedString = (s: string): Effect<TrimmedString> => pipe(s, eitherFromPredicate(isTrimmedString, toError));
 ```
 
 | helpers | description |
