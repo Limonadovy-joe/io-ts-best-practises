@@ -243,6 +243,35 @@ const TrimmedString = new Type<TrimmedString, string, string>(
   identity
 );
 ```
+We can use it as follows - React form example:
+```ts
+type NewsletterFormState = { email: string } | { error: Error };
+
+type NewsletterFormConfig = { onFormSubmit: IO<void> };
+
+type NewsletterFormProps = NewsletterFormConfig & { emailDefault: string };
+
+const newsletterFormStateInit: NewsletterFormState = { email: "" };
+
+const NewsletterForm = ({
+  emailDefault,
+  onFormSubmit,
+}: NewsletterFormProps) => {
+  const [formState, setFormState] = useState<NewsletterFormState>(
+    newsletterFormStateInit
+  );
+
+  return (
+    <div className="wrapper-form">
+      <form action="" className="newsletter-form">
+        ...
+      </form>
+    </div>
+  );
+};
+
+```
+
 
 | API **`Type<A, O, I>`** | description |
 | ------------- | ------------------------------- |
