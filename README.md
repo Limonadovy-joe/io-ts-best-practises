@@ -156,6 +156,11 @@ const TrimmedString = new Type<TrimmedString, string, string>(
     ),
   identity
 );
+
+TODO: Combinator section, to avoid using explicit Type , you can use built-in combinators.
+
+
+
 ```
 We can use it as follows - React form example:
 ```tsx
@@ -185,7 +190,6 @@ const NewsletterForm = ({
 };
 
 ```
-Combinator section
 
 
 | API **`Type<A, O, I>`** | description |
