@@ -248,7 +248,7 @@ const NewsletterForm = ({ email, onFormSubmit }: NewsletterFormProps) => {
 
 ### Patterns for writting Branded types
 #### Use Branded types to define Domain types
-The point of having **Branded types** is to avoid a set of compile-time errors. You can combine **Branded types** via [combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators) to build types which represent domain entities, infrastructure types such as payloads.
+The point of having **Branded types** is to avoid a set of compile-time errors. You can combine **Branded types** via [combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators) to build more complex types which represent domain entities, infrastructure types such as payloads.
 
 
 #### Initialization of Branded types
