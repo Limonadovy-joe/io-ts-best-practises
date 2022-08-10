@@ -23,6 +23,10 @@ Take everything here as an **opinion**, not as a dogma.
       - [Smart constructors](#smart-constructors) 
         - [General definition of smart constructor](#general-definition-of-smart-constructor)
         - [Definition of smart constructor from io-ts](#definition-of-smart-constructor-from-io-ts)
+     - [Patterns for writting Branded types](#patterns-for-writting-branded-types)
+        - [Use Branded types to define Domain types](#use-branded-types-to-define-domain-types)
+        - [Initialization of Branded types](#initialization-of-branded-types)
+        - [Export only smart constructor of Branded type](#use-branded-types-to-define-domain-types)
 <!--   - Import Branded type after **[release 1.8.1](https://github.com/gcanti/io-ts/releases/tag/1.8.1)** -->
 
 - [**Application Structure**](#application-structure)
@@ -154,7 +158,7 @@ const TrimmedString = new Type<TrimmedString, string, string>(
 );
 ```
 We can use it as follows - React form example:
-```ts
+```tsx
 type NewsletterFormState = { email: string } | { error: Error };
 
 type NewsletterFormConfig = { onFormSubmit: IO<void> };
@@ -181,12 +185,24 @@ const NewsletterForm = ({
 };
 
 ```
+Combinator section
 
 
 | API **`Type<A, O, I>`** | description |
 | ------------- | ------------------------------- |
 | `is: Is<A>` |  Custom type guard to narrow the appropriate type -`isTrimmedString` |
-| `decode(i: I): Validation<A>` |  This method can be used as **Smart constructor** - `createTrimmedString` |    
+| `decode(i: I): Validation<A>` |  This method can be used as **Smart constructor** - `createTrimmedString` |
+
+
+
+### Patterns for writting Branded types
+#### Use Branded types to define Domain types
+The point of having **Branded types** is to avoid a set of compile-time errors. You can combine **Branded types** via [combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators) to build types which represent domain entities, infrastructure types such as payloads.
+
+
+#### Initialization of Branded types
+
+
 
 # Application Structure
 
