@@ -31,6 +31,9 @@ Take everything here as an **opinion**, not as a dogma.
 
 - [**Application Structure**](#application-structure)
   - [Use Default import to import io-ts](#use-default-import-to-import-io-ts)
+
+**Table of Contents of the experimental features (version >= 2.2)**
+- [**Examples that use experimental API**](#examples-that-use-experimental-api)
   
   
   
@@ -283,3 +286,5 @@ const ClientId = intersection([
 
 ```
 With this approach we can destructure the content we need from the io-ts module instead of importing all the contents.
+
+# Examples that use experimental API
