@@ -14,7 +14,7 @@ I would like to outline patterns about:
 Take everything here as an **opinion**, not as a dogma.
 
 
-**Table of Contents**
+**Table of Contents of the main stable features (version < 2.2)**
 
 - [**General Patterns**](#general-patterns)
   - [Implementation of Refinement types using Branded Types](#implementation-of-refinement-types-using-branded-types)
