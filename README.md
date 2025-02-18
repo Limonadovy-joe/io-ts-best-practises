@@ -74,6 +74,7 @@ Smart constructors are functions that perform some extra checks when the values 
 | `(a: A) => F<R>` |  Such signature models a function which accepts an input of the `A` and returns the type of `R`, coupled with an **effect** `F`, where `F` is some **type constructor**. |
 
 Example: 
+
 ```ts
 import { Either, fromPredicate as eitherFromPredicate, toError } from "fp-ts/lib/Either";
 import { Branded } from "io-ts";
@@ -107,6 +108,7 @@ const createTrimmedString = (s: string): Effect<TrimmedString> => pipe(s, either
 
 All of the codecs([combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators)) inherit from `Type<A, O, I>` 
 class:
+
 ```ts
 class Type<A, O = A, I = unknown> implements Decoder<I, A>, Encoder<A, O> {
 
@@ -119,6 +121,7 @@ class Type<A, O = A, I = unknown> implements Decoder<I, A>, Encoder<A, O> {
 ```
 
 You could then define a codec `TrimmedString` which represents a string without leading and trailing whitespaces:
+
 ```ts
 import {
   Either,
@@ -158,6 +161,7 @@ const TrimmedString = new Type<TrimmedString, string, string>(
     ),
   identity
 );
+```
 
 #### Use Branded types to define Domain types
 The point of having **Branded types** is to avoid a set of compile-time errors. You can combine **Branded types** via [combinators](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators) to build more complex types which represent domain entities, infrastructure types such as payloads.
